@@ -5,11 +5,14 @@
 using namespace std;
 
 int main() {
-    cout << "Begining of program " << flush;
-    cout << "Hello World" << endl;
-    cout << "Another " << "Text " << "I guess " << endl;
-    cout << "Trying more text" << endl;
-
+      cout << "Production Line Tracker\n";
+      cout << "\n";
+      cout << "1. Add Employee Account\n";
+      cout << "2. Add Music Player\n";
+      cout << "3. Add Movie Player\n";
+      cout << "4. Display Production Statistics\n";
+      cout << "5. Exit\n";
 
     return 0;
 }
+
