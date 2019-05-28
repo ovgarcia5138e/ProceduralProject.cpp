@@ -1,5 +1,5 @@
 /*
-Hello world program
+Media Player Production Program.
 @file main.cpp
 @brief The majority of a media player production program.
 
@@ -37,7 +37,7 @@ void appleCompayProducts(string manufacturer);
 int main() {
 
 
-    cout << "Lets get Started enter your name: " << endl;
+    cout << "Login Cisco Company \n" <<  "Enter your name: " << endl;
 
 
     // this is the username of the person using the program
@@ -45,9 +45,9 @@ int main() {
 
     cin >> username;
 
-    cout << "Hey " << username
-         << " you managed to hack into Cisco Corportation system, this is an AI speaking, my name is not inmortant"
-            " for now refer to me as tosh togther we will "
+    cout << "Error Message \n  " << username
+         << " You managed to hack into Cisco Corporation system, this is an AI speaking, my name is not inmortant"
+            " for now refer to me as tosh, together we will "
             "take what we need and use it to our advantage." << endl;
 
     cout << "\n";
@@ -61,10 +61,11 @@ int main() {
     introductionQuestion(firstescapeattempt);
 
     cout << "\n";
-    cout << "Pick on of  the options below by inputing a value 1-6:"
-         << endl;
+    cout << "Pick one of  the options below by inputing a value 1-6:"<< endl;
+    cout << "\n";
 
     // showMenu() displays the home menu of the production line.
+    cout << "Production Line Tracker\n";
     showMenu();
 
     int firstmenuinput;
@@ -74,7 +75,7 @@ int main() {
     menuOptionstonextmenu(firstmenuinput);
 
     // The input for the company manufacturer.
-    cout << "Enter the manufacturer\n";
+    cout << "Enter the name of a manufacturer to begin product production:\n";
     string manufacturer;
     cin >> manufacturer;
 
@@ -147,69 +148,32 @@ int menuOptions(int menuinputone) {
 
     if (menuinputone == 1) {
         cout << "Produce Items Stub\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
 
     } else if (menuinputone == 2) {
         cout << "Add Employee Account Stub\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
 
     } else if (menuinputone == 3) {
         cout << "Add Music Player Stub\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
 
     } else if (menuinputone == 4) {
         cout << "Add Movie Player Stub\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
 
     } else if (menuinputone == 5) {
         cout << "Display Production Statistics Stub\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
-
+        showMenu();
     } else if (menuinputone == 6) {
-
         cout << "Production Line Tracker\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
 
         return 0;
 
     } else if (menuinputone < 1 || menuinputone > 6) {
         cout << "Not a valid selection\n";
-        cout << "1. Produce items\n";
-        cout << "2. Add Employee Account\n";
-        cout << "3. Add Music Player\n";
-        cout << "4. Add Movie Player\n";
-        cout << "5. Display Production Statistics\n";
-        cout << "6. Exit\n";
+        showMenu();
     }
 
     return 0;
@@ -219,14 +183,14 @@ int menuOptions(int menuinputone) {
 // Shows the default menu.
 void showMenu() {
     cout << "\n";
-    cout << "Production Line Tracker\n";
+    //cout << "Production Line Tracker\n";
     cout << "1. Produce items\n";
     cout << "2. Add Employee Account\n";
     cout << "3. Add Music Player\n";
     cout << "4. Add Movie Player\n";
     cout << "5. Display Production Statistics\n";
     cout << "6. Exit\n";
-
+    cout <<"\n";
 }
 
 
@@ -257,8 +221,6 @@ int menuOptionstonextmenu(int firstmenuinput) {
             menuOptions(thirdmenuinput);
 
             if (thirdmenuinput == 6) {
-                //menuOptions(6);
-                //return 0;
                 break;
             }
 
@@ -272,9 +234,7 @@ int menuOptionstonextmenu(int firstmenuinput) {
 
         } else if (firstmenuinput == 6) {
             menuOptions(6);
-            //int thirdmenuinput;
-            //cin >> thirdmenuinput;
-            //menuOptions(thirdmenuinput);
+
             return 0;
         }
 
@@ -288,6 +248,9 @@ int menuOptionstonextmenu(int firstmenuinput) {
 void appleCompayProducts(string manufacturer) {
 
     if (manufacturer == "Apple") {
+
+        cout << "Select a product by typing in the product name: \n";
+        cout <<"\n";
         cout <<
              "Apple Products\n"
              << "1. iPod\n"
@@ -300,7 +263,8 @@ void appleCompayProducts(string manufacturer) {
 
 
         if (prodName == "iPod") {
-            cout << "Enter the item type\n";
+            cout << "Enter the item type by typing in the associated number:\n";
+            cout << "\n";
             cout << "1. Audio\n" <<
                  "2. Visual\n" <<
                  "3. AudioMobile\n" <<
@@ -323,16 +287,10 @@ void appleCompayProducts(string manufacturer) {
                 productlist.open("ProductList.txt", ios::app);
 
                 for (int start = 1; start <= numProducedMM; start++) {
-                    //ofstream myfile ("ProductList.txt", ios::in | ios::out | ios::app);
 
-                    //if (productlists.is
-                    // _open()){
                     productlist << "Production Number: " << start << " Serial Number: AppMM " << setfill('0') << setw(5)
                                 << start << endl;
 
-                    //} else {
-                    //cout << "Unable to open file.\n";
-                    // }
                 }
 
                 productlist.close();
@@ -383,7 +341,7 @@ void appleCompayProducts(string manufacturer) {
 
     }
 
-    cout << "Please type another company if finished enter done";
+    cout << "Please type another company to produce more products or type in 'done' if finished\n";
     string productmenuagain;
     cin >> productmenuagain;
 
@@ -393,7 +351,6 @@ void appleCompayProducts(string manufacturer) {
         appleCompayProducts(productmenuagain);
         cout << "\n";
         cout << "Enter a new product to add: \n";
-
 
     }
 }
