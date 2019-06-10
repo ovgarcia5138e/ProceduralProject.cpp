@@ -74,7 +74,6 @@ int main() {
                    product_records_serial, producing_products_input);
     } while (true);
 
-
     return 0;
 }
 
@@ -158,36 +157,13 @@ void producing_products(std::vector<std::string> &catalog_vector_manufacturer,
 
     print_product_lines(catalog_vector_manufacturer);
 
-    //int producing_products_input;
+
     std::cin >> producing_products_input;
 
 
-    switch (producing_products_input) {
-        case 1:
-            product_types_menu(catalog_vector_prod_type);
-            selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
-                                VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
-            break;
-        case 2:
-            product_types_menu(catalog_vector_prod_type);
-            selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
-                                VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
-            break;
-        case 3:
-            product_types_menu(catalog_vector_prod_type);
-            selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
-                                VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
-            break;
-        case 4:
-            product_types_menu(catalog_vector_prod_type);
-            selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
-                                VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
-            break;
-        case 5:
-            product_types_menu(catalog_vector_prod_type);
-            selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
-                                VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
-            break;
+    if (producing_products_input == producing_products_input) {
+        selecting_item_type(catalog_vector_prod_type, product_production_num, VIserial, AMserial, MMserial,
+                            VMserial, product_records, catalog_vector_manufacturer, producing_products_input);
     }
 
 }
@@ -207,7 +183,7 @@ void adding_new_products_to_production(std::vector<std::string> &catalog_vector_
     //print_product_lines();
 
     std::cout << "\n";
-    std::cout << "Enter a Manufactuer" << "\n";
+    std::cout << "Enter a Manufacturer" << "\n";
     std::string new_manufacturer;
     std::cin >>
              new_manufacturer;
@@ -225,17 +201,35 @@ void adding_new_products_to_production(std::vector<std::string> &catalog_vector_
     product_types_menu(catalog_vector_prod_type);
 
     std::cout << "Enter a new product type" << "\n";
-    std::string new_product_type;
+    int new_product_type;
     std::cin >> new_product_type;
+    std::string product_type = "mm";
 
-    catalog_vector_type.push_back(new_product_type);
+    switch (new_product_type) {
+        case 1:
+            product_type = "VI";
+            break;
+        case 2:
+            product_type = "AM";
+            break;
+        case 3:
+            product_type = "MM";
+            break;
+        case 4:
+            product_type = "VM";
+            break;
+    }
+
+    //catalog_vector_type.push_back(new_product_type);
 
     std::ofstream new_product_to_catalog;
-    new_product_to_catalog.open("manufacturer.txt", std::ios::app);
+    new_product_to_catalog.open("Catalog.txt", std::ios::app);
 
 
-    new_product_to_catalog << new_manufacturer << " " << new_product << " " << new_product_type <<
+    new_product_to_catalog << new_manufacturer << " " << new_product << " " << product_type <<
                            std::endl;
+
+    std::cout << "New product added to the production line.\n";
 
 }
 
@@ -280,30 +274,21 @@ void selecting_item_type(std::vector<std::string> &catalog_vector_prod_type, int
     std::ofstream product_write;
     product_write.open("ProductionRecords.txt", std::ios::app);
 
-
-    int item_type_input;
-    std::cin >> item_type_input;
-
+    int hello = producing_products_input - 1;
+    std::string product_type_file = catalog_vector_manufacturer[hello].substr(
+            catalog_vector_manufacturer[hello].size() - 2, 2);
+    std::string product_company = catalog_vector_manufacturer[hello].substr(
+            0, catalog_vector_manufacturer[hello].size() - 2);
     int counter = 0;
-    std::string type = "he";
 
-    switch (item_type_input) {
-        case 1:
-            counter = VIserial++;
-            type = "VI";
-            break;
-        case 2:
-            counter = AMserial++;
-            type = "AM";
-            break;
-        case 3:
-            counter = MMserial++;
-            type = "MM";
-            break;
-        case 4:
-            counter = VMserial++;
-            type = "VM";
-            break;
+    if (product_type_file == "VI") {
+        counter = VIserial++;
+    } else if (product_type_file == "AM") {
+        counter = AMserial++;
+    } else if (product_type_file == "MM") {
+        counter = MMserial++;
+    } else if (product_type_file == "VM") {
+        counter = VMserial++;
     }
 
     std::cout << "Enter the number to be produced: " << "\n";
@@ -313,13 +298,14 @@ void selecting_item_type(std::vector<std::string> &catalog_vector_prod_type, int
 
     int overall_production_numbers = product_records.size();
 
-    int hello = producing_products_input - 1;
     for (int i = 1; i <= number_to_produce; i++) {
         product_write << "Production number : " << overall_production_numbers++ << " " << " "
-                      << " " << catalog_vector_manufacturer[hello] << " "
-                      << catalog_vector_manufacturer[hello].substr(0, 3) <<
-                      type << std::setfill('0') << std::setw(5) << counter++ << "\n";
+                      << " " << product_company << " "
+                      << catalog_vector_manufacturer[hello].substr(0, 3) << product_type_file
+                      << std::setfill('0') << std::setw(5) << counter++ << "\n";
     }
+
+    std::cout << "Products added to production line.\n";
 
     product_write.close();
 
@@ -364,10 +350,10 @@ void starting_place_vectors(std::vector<std::string> &product_records, int &VIse
 
 /*
 This function finds a products production number according to its serial number which is ten digits
-it is accepted as a string. The function procedes to read from the ProductionRecords text file 
+it is accepted as a string. The function proceeds to read from the ProductionRecords text file
 and pushes each line into a vector which is the product_records_serial string vector. Each Element
 string of that vector generates a substring that is the last ten index values, which is compared to the
-user input, and if they match each other the size of the product_records_serial is given. which is equivielent
+user input, and if they match each other the size of the product_records_serial is given. which is equivalent
 to the production number of that serial number.
 */
 
@@ -414,4 +400,3 @@ void find_production_number(std::vector<std::string> &product_records_serial) {
     }
 
 }
- 
