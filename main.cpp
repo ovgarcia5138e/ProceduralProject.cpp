@@ -21,6 +21,8 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <sstream>
+#include <cstring>
 
 //Prototype functions.
 void showMenu();
@@ -50,6 +52,10 @@ void starting_place_vectors(std::vector<std::string> &, int &, int &, int &MM, i
 
 void find_production_number(std::vector<std::string> &);
 
+void creating_employee_account();
+
+void creating_employee_password();
+
 int main() {
 
     std::vector<std::string> catalog_vector_manufacturer;
@@ -74,7 +80,7 @@ int main() {
                    product_records_serial, producing_products_input);
     } while (true);
 
-    return 0;
+    //return 0;
 }
 
 // This function displays the main menu of the program.
@@ -112,6 +118,8 @@ menu_input(std::vector<std::string> &catalog_vector_manufacturer, std::vector<st
                                catalog_vector_prod_type, product_records, producing_products_input);
             break;
         case 2:
+            creating_employee_account();
+            creating_employee_password();
             break;
         case 3:
             adding_new_products_to_production(catalog_vector_manufacturer, catalog_vector_products, catalog_vector_type,
@@ -123,6 +131,7 @@ menu_input(std::vector<std::string> &catalog_vector_manufacturer, std::vector<st
             find_production_number(product_records_serial);
             break;
         case 6:
+
             break;
     }
 
@@ -299,8 +308,7 @@ void selecting_item_type(std::vector<std::string> &catalog_vector_prod_type, int
     int overall_production_numbers = product_records.size();
 
     for (int i = 1; i <= number_to_produce; i++) {
-        product_write << "Production number : " << overall_production_numbers++ << " " << " "
-                      << " " << product_company << " "
+        product_write << "Production number : " << overall_production_numbers++ << " " << " " << product_company
                       << catalog_vector_manufacturer[hello].substr(0, 3) << product_type_file
                       << std::setfill('0') << std::setw(5) << counter++ << "\n";
     }
@@ -387,7 +395,6 @@ void find_production_number(std::vector<std::string> &product_records_serial) {
 
         }
 
-
         if (is_there) {
             std::cout << "the production number of " << serial_num_to_find << " is " << counter
                       << std::endl;
@@ -399,4 +406,85 @@ void find_production_number(std::vector<std::string> &product_records_serial) {
 
     }
 
+}
+
+/*
+ * This function allows an employee to enter their first, and last name while also generating them a useranme that
+ * has the fist name inital followed by the entire last name all in in lowercase, and saves the fist name, last name,
+ * and username to a txt file.
+ */
+
+void creating_employee_account() {
+    std::cout << "Enter your first name:\n";
+    std::string first_name;
+    std::cin >> first_name;
+    std::cout << "Enter your last name:\n";
+    std::string last_name;
+    std::cin >> last_name;
+    std::string employee_full_name = first_name + " " + last_name + "\n";
+    std::string last_name_resized;
+    std::string first_name_resized;
+    last_name_resized.resize(last_name.size());
+    std::transform(last_name.begin(), last_name.end(), last_name_resized.begin(), ::tolower);
+    std::transform(first_name.begin(), first_name.end(), first_name_resized.begin(), ::tolower);
+    std::string employee_user_name = first_name_resized[0] + last_name_resized;
+    std::cout << "Your user name is: " + employee_user_name << "\n";
+    std::ofstream employee_name_to_file;
+    employee_name_to_file.open("Employee_passwords.txt", std::ios::app);
+    employee_name_to_file << first_name << " " << last_name << " " << employee_user_name << " ";
+}
+/*
+ * This function accepts a 30 char long password from an employee, encrypts the password using the ceaser cypher
+ * and savese the employees password, and encrypted password to a txt file.
+ */
+void creating_employee_password() {
+    std::cin.ignore();
+    std::cout
+            << "Enter a password with at least one of the following: lowercase letter, uppercase letter, a number, and no spaces:\n";
+    const int employee_password_size = 30;
+    char attempted_password[employee_password_size];
+    int lower = 0;
+    int upper = 0;
+    int digit = 0;
+    bool valid_password;
+
+    std::cin.getline(attempted_password, employee_password_size);
+
+    for (int i = 0; i < strlen(attempted_password); i++) {
+        if (islower(attempted_password[i])) {
+            lower += 1;
+        } else if (isupper(attempted_password[i])) {
+            upper += 1;
+        } else if (isdigit(attempted_password[i])) {
+            digit += 1;
+        } else {
+            valid_password = true;
+        }
+    }
+
+    std::string password;
+    std::stringstream convert;
+    convert << attempted_password;
+    convert >> password;
+
+    if (lower > 0 && upper > 0 && digit > 0 && valid_password == false) {
+        std::cout << "Congratulations your password is: " << password << "\n";
+    } else {
+        std::cout << "That was an invalid password, check and try again\n";
+        creating_employee_password();
+    }
+
+    std::vector<char> encrypted_password;
+
+    for (int i = 0; i < password.length(); i++) {
+        int ascii_value = int(password[i]);
+        char new_char_value = char(ascii_value + 3);
+        encrypted_password.push_back(new_char_value);
+    }
+
+    std::string encrypted_password_string(encrypted_password.begin(), encrypted_password.end());
+    std::cout << encrypted_password_string;
+    std::ofstream encrypeted_password_to_file;
+    encrypeted_password_to_file.open("Employee_passwords.txt", std::ios::app);
+    encrypeted_password_to_file << password << " " << encrypted_password_string << "\n";
 }
