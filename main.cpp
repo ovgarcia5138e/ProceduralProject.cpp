@@ -56,6 +56,10 @@ void creating_employee_account();
 
 void creating_employee_password();
 
+void employee_login();
+
+void getting_program_started();
+
 int main() {
 
     std::vector<std::string> catalog_vector_manufacturer;
@@ -72,8 +76,11 @@ int main() {
     int overall_production_num = 0;
     int producing_products_input;
 
+
     // This do while loop returns the program to the main menu after each task the user engages in is complete.
     do {
+        getting_program_started();
+        employee_login();
         showMenu();
         menu_input(catalog_vector_manufacturer, catalog_vector_products, catalog_vector_type, catalog_vector_prod_type,
                    overall_production_num, VIserial, AMserial, MMserial, VMserial, product_records,
@@ -83,14 +90,59 @@ int main() {
     //return 0;
 }
 
+/*
+ * This function accpets two strings which are the employee username, and the employee password. These strings
+ * are checked to see if they are inside of a txt file that has all of the current employee information stored
+ * if it is in the txt file then the employee can login, and rack production, produce new products, and new products to
+ * the production line. While also gathering company statistics, and getting production numbers from a products
+ * serial number.
+ */
+
+void employee_login() {
+    std::cout << "Please enter your employee username: \n";
+    std::string attempted_username_login;
+    std::cin >> attempted_username_login;
+    std::cout << "Pleas enter your employee password:\n";
+    std::string attempted_password_login;
+    std::cin >> attempted_password_login;
+
+    std::string employee_information;
+    std::ifstream employee_attempted_login("Employee_passwords.txt");
+    std::vector<std::string> checking_password;
+    int pass = 0;
+    int user = 0;
+    if (employee_attempted_login.is_open()) {
+        while (getline(employee_attempted_login, employee_information)) {
+            checking_password.push_back(employee_information);
+            for (int i = 0; i < checking_password.size(); i++) {
+                if (checking_password[i].find(attempted_password_login) != std::string::npos) {
+                    pass = i;
+                }
+                if (checking_password[i].find(attempted_username_login) != std::string::npos) {
+                    user = i;
+                }
+            }
+
+        }
+        employee_attempted_login.close();
+    }
+
+    if (user == pass) {
+        std::cout << "Welcome back: \n";
+    } else {
+        std::cout << "Invalid Username or Password. Check and try again.\n";
+        employee_login();
+    }
+}
+
 // This function displays the main menu of the program.
 void showMenu() {
     std::cout << "\n";
     //cout << "Production Line Tracker\n";
     std::cout << "1. Produce items\n";
     std::cout << "2. Add Employee Account\n";
-    std::cout << "3. Add to production line\n";
-    std::cout << "4. Add Movie Player\n";
+    std::cout << "3. Add Product To Catalog\n";
+    std::cout << "4. Option under construction\n";
     std::cout << "5. Display Production Statistics\n";
     std::cout << "6. Exit\n";
     std::cout << "\n";
@@ -131,8 +183,7 @@ menu_input(std::vector<std::string> &catalog_vector_manufacturer, std::vector<st
             find_production_number(product_records_serial);
             break;
         case 6:
-
-            break;
+            exit(-1);
     }
 
 }
@@ -433,6 +484,7 @@ void creating_employee_account() {
     employee_name_to_file.open("Employee_passwords.txt", std::ios::app);
     employee_name_to_file << first_name << " " << last_name << " " << employee_user_name << " ";
 }
+
 /*
  * This function accepts a 30 char long password from an employee, encrypts the password using the ceaser cypher
  * and savese the employees password, and encrypted password to a txt file.
@@ -483,8 +535,18 @@ void creating_employee_password() {
     }
 
     std::string encrypted_password_string(encrypted_password.begin(), encrypted_password.end());
-    std::cout << encrypted_password_string;
     std::ofstream encrypeted_password_to_file;
     encrypeted_password_to_file.open("Employee_passwords.txt", std::ios::app);
     encrypeted_password_to_file << password << " " << encrypted_password_string << "\n";
+}
+
+void getting_program_started() {
+    std::string first_employee;
+    std::ifstream making_first_employee("Employee_passwords.txt");
+    if (getline(making_first_employee, first_employee).fail()) {
+        creating_employee_account();
+        creating_employee_password();
+    } else {
+        std::cout << "Welcome back: \n";
+    }
 }
