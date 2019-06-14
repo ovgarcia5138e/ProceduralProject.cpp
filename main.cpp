@@ -109,22 +109,28 @@ void employee_login() {
     std::string employee_information;
     std::ifstream employee_attempted_login("Employee_passwords.txt");
     std::vector<std::string> checking_password;
+    std::string test_attempted_password = " " + attempted_password_login + " ";
+    std::string test_attempted_username = " " + attempted_username_login + " ";
     int pass = 0;
     int user = 0;
+
     if (employee_attempted_login.is_open()) {
         while (getline(employee_attempted_login, employee_information)) {
             checking_password.push_back(employee_information);
-            for (int i = 0; i < checking_password.size(); i++) {
-                if (checking_password[i].find(attempted_password_login) != std::string::npos) {
-                    pass = i;
-                }
-                if (checking_password[i].find(attempted_username_login) != std::string::npos) {
-                    user = i;
-                }
-            }
 
         }
         employee_attempted_login.close();
+    }
+
+    for (int i = 0; i < checking_password.size(); i++) {
+        if (checking_password[i].find(test_attempted_username) != std::string::npos) {
+            pass = i;
+        }
+        if (checking_password[i].find(test_attempted_password)!= std::string::npos) {
+            user = i;
+        } else {
+            user = 1;
+        }
     }
 
     if (user == pass) {
@@ -133,6 +139,7 @@ void employee_login() {
         std::cout << "Invalid Username or Password. Check and try again.\n";
         employee_login();
     }
+
 }
 
 // This function displays the main menu of the program.
