@@ -14,8 +14,7 @@ The ability for an employee to add new products to their product line, and then 
 Being able to retrive product statistics such as how many of each product has been produced, and being able to retrieve a products production number by inputing the serial number.
 
 # Visual
-![](2001part1.gif)
-![](2001part2.gif)
-![](2001part3.gif)
+![](2001cop.gif)
+
 
 https://repl.it/data/repls/b03217d7-6fe9-4098-9cc1-90ed3296db26/main.cpp/revision/1558666434115016
